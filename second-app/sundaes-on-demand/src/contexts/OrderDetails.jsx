@@ -26,7 +26,7 @@ export function OrderDetailsProvider(props) {
     // make a copy of existing state
     const newOptionCounts = { ...optionCounts };
 
-    // update tje copy with the new information
+    // update the copy with the new information
     newOptionCounts[optionType][itemName] = newItemCount;
 
     // updte the state with the updated copy
