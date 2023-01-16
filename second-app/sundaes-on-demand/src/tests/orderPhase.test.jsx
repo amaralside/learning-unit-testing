@@ -3,9 +3,11 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 
 test('order phases for happy path', async () => {
-  // render app
   const user = userEvent.setup();
-  render(<App />);
+
+  // render app
+  // desctructure 'unmount' from return value to use at the end of the test
+  const { unmount } = render(<App />);
 
   // add ice cream scoops and toppings
   const vanillaInput = await screen.findByRole('spinbutton', {
@@ -14,6 +16,7 @@ test('order phases for happy path', async () => {
   await user.clear(vanillaInput);
   await user.type(vanillaInput, '1');
 
+  // maybe the await is unneccessary because if the vanilla is loaded the the chocolate would be too (?)
   const chocolateInput = await screen.findByRole('spinbutton', {
     name: 'Chocolate',
   });
@@ -88,6 +91,7 @@ test('order phases for happy path', async () => {
   expect(toppingsTotal).toBeInTheDocument();
 
   // do we need to await anything to avoid test errors?
-  await screen.findByRole('spinbutton', { name: 'Vanilla' });
-  await screen.findByRole('checkbox', { name: 'Cherries' });
+
+  // unmount the component to trigger cleanup and avoid 'not wrapped in act()' error
+  unmount();
 });
